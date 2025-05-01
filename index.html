@@ -10,13 +10,16 @@
     <div class="container">
         <h1>Multiuser Game</h1>
         <div id="signup">
-            <input type="text" id="username" placeholder="Enter your username" required>
-            <button id="signup-button">Sign Up</button>
+            <form id="signup-form">
+                <input type="text" id="username" placeholder="Enter your username" required>
+                <button type="submit" id="signup-button">Sign Up</button>
+            </form>
+            <ul id="user-list"></ul>
         </div>
         <div id="game" style="display: none;">
             <h2>Round Started!</h2>
             <p id="word-display"></p>
-            <button id="start-round-button">Start Round</button>
+            <button id="start-round">Start Round</button>
         </div>
     </div>
     <script src="src/scripts/app.js"></script>
