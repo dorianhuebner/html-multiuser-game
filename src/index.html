@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiuser Game</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Multiuser Game</h1>
+        <div id="signup">
+            <input type="text" id="username" placeholder="Enter your username" required>
+            <button id="signup-button">Sign Up</button>
+        </div>
+        <div id="game" style="display: none;">
+            <h2>Round Started!</h2>
+            <p id="word-display"></p>
+            <button id="start-round-button">Start Round</button>
+        </div>
+    </div>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
