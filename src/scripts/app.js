@@ -59,21 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('game-reset', () => {
-        // Hide the game section and show the signup section
-        gameSection.style.display = 'none';
-        signupSection.style.display = 'block';
+        // Show the game section
+        gameSection.style.display = 'block';
     
         // Clear the word display
         wordDisplay.textContent = '';
         wordDisplay.classList.remove('active');
     
-        // Re-enable and show the "Runde starten" button
+        // Re-enable and ensure the "Runde starten" button is visible
         startRoundButton.disabled = false;
         startRoundButton.style.display = 'inline-block';
-    
-        // Keep the username input disabled and the signup button disabled
-        usernameInput.disabled = true;
-        document.getElementById('signup-button').disabled = true;
     
         // Hide the reset button
         resetGameButton.style.display = 'none';
@@ -131,11 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('round-ended', (message) => {
         wordDisplay.textContent = '';
         wordDisplay.classList.remove('active');
+    
+        // Re-enable the "Runde starten" button
         startRoundButton.disabled = false;
-        
+        startRoundButton.style.display = 'inline-block';
+    
         if (message) {
             alert(message);
         }
+
+        console.log('Game reset triggered round-ended');
+console.log('Start Round Button:', startRoundButton.style.display, startRoundButton.disabled);
     });
     
     socket.on('game-reset', () => {
@@ -158,6 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (statusMessage) {
             statusMessage.textContent = 'Das Spiel wurde zurückgesetzt. Bereit für eine neue Runde!';
         }
+
+        console.log('Game reset triggered game-reset');
+        console.log('Start Round Button:', startRoundButton.style.display, startRoundButton.disabled);
     });
     
     socket.on('disconnect', () => {
