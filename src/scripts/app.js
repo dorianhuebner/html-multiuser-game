@@ -58,20 +58,29 @@ document.addEventListener('DOMContentLoaded', () => {
         signupSection.appendChild(statusArea);
     });
 
-    // Listen for the "game-reset" event
     socket.on('game-reset', () => {
         // Hide the game section and show the signup section
         gameSection.style.display = 'none';
         signupSection.style.display = 'block';
-
-        // Clear the word display and reset the form
+    
+        // Clear the word display
         wordDisplay.textContent = '';
         wordDisplay.classList.remove('active');
-        usernameInput.disabled = false;
-        document.getElementById('signup-button').disabled = false;
-
+    
+        // Re-enable the "Runde starten" button
+        startRoundButton.disabled = false;
+    
+        // Keep the username input disabled and the signup button disabled
+        usernameInput.disabled = true;
+        document.getElementById('signup-button').disabled = true;
+    
         // Hide the reset button
         resetGameButton.style.display = 'none';
+    
+        // Update the status message
+        if (statusMessage) {
+            statusMessage.textContent = 'Das Spiel wurde zurückgesetzt. Bereit für eine neue Runde!';
+        }
     });
     
     socket.on('signup-error', (errorMessage) => {
