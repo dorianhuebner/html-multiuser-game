@@ -129,12 +129,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     socket.on('game-reset', () => {
+        // Hide the game section and show the signup section
+        gameSection.style.display = 'none';
+        signupSection.style.display = 'block';
+    
+        // Clear the word display
         wordDisplay.textContent = '';
         wordDisplay.classList.remove('active');
-        startRoundButton.disabled = false;
-        
+    
+        // Keep the username input disabled and the signup button disabled
+        usernameInput.disabled = true;
+        document.getElementById('signup-button').disabled = true;
+    
+        // Hide the reset button
+        resetGameButton.style.display = 'none';
+    
+        // Update the status message
         if (statusMessage) {
-            statusMessage.textContent = 'Neue Runde, neues Glück!';
+            statusMessage.textContent = 'Das Spiel wurde zurückgesetzt. Bereit für eine neue Runde!';
         }
     });
     
