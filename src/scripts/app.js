@@ -78,6 +78,24 @@ document.addEventListener('DOMContentLoaded', () => {
             statusMessage.textContent = 'Das Spiel wurde zurückgesetzt. Bereit für eine neue Runde!';
         }
     });
+
+    socket.on('game-reset', () => {
+        // Ensure the game section is visible
+        gameSection.style.display = 'block';
+    
+        // Debugging log
+        console.log('Game Section Display:', gameSection.style.display);
+    });
+
+    socket.on('game-reset', () => {
+        // Ensure the button is functional
+        startRoundButton.addEventListener('click', () => {
+            socket.emit('start-round');
+        });
+    
+        // Debugging log
+        console.log('Start Round Button Event Listener Reattached');
+    });
     
     socket.on('signup-error', (errorMessage) => {
         alert(errorMessage);

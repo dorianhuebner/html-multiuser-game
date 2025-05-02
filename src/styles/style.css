@@ -137,3 +137,8 @@ button:disabled {
 #reset-game:hover {
     background-color: #c0392b;
 }
+
+#start-round {
+    border: 2px solid red; /* Debugging style */
+    background-color: yellow; /* Debugging style */
+}
