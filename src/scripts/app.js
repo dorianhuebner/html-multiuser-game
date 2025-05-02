@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add message to show successful signup
         const statusArea = document.createElement('p');
         statusArea.id = 'status-message';
-        statusArea.textContent = `Welcome, ${user.username}! You are now signed up.`;
+        statusArea.textContent = `Willkommen, ${user.username}! Du bist nun angemeldet.`;
         signupSection.appendChild(statusArea);
     });
     
@@ -80,12 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update status message
         if (statusMessage) {
-            statusMessage.textContent = 'Round started! Look at your word below.';
+            statusMessage.textContent = 'Runde gestartet!';
         }
     });
     
     socket.on('word-assigned', (word) => {
-        wordDisplay.textContent = `Your word: ${word}`;
+        
+        wordDisplay.textContent = `Dein Wort: ${word}`;
+        wordDisplay.classList.toggle('highlight', data.highlight); // Highlight-Klasse hinzufügen/entfernen
         wordDisplay.classList.add('active');
     });
     
@@ -109,11 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
         startRoundButton.disabled = false;
         
         if (statusMessage) {
-            statusMessage.textContent = 'Game has been reset. Ready for a new round!';
+            statusMessage.textContent = 'Neue Runde, neues Glück!';
         }
     });
     
     socket.on('disconnect', () => {
-        console.log('Disconnected from server');
+        console.log('hat verlassen.');
     });
 });
