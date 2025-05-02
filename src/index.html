@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who is the spion?</title>
     <link rel="stylesheet" href="styles/style.css">
+
+    <script>
+        window.onload = function() {
+            // Popup erstellen
+            var password = prompt("Bitte geben Sie den Code ein:");
+            if (password !== "dodoistcool") {
+                alert("Falscher Code! Sie haben keinen Zugriff.");
+                window.location.href = "about:blank"; // Redirect to a blank page if wrong code
+            }
+        };
+    </script>
 </head> 
 <body>
     <div class="container">
