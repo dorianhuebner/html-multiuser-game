@@ -120,7 +120,6 @@ io.on('connection', (socket) => {
     gameState.users.forEach(user => {
         const wordToSend = {
         word: user.id === gameState.oddOneOutUser ? gameState.oddOneOutWord : gameState.mainWord,
-        highlight: user.id === gameState.oddOneOutUser // Highlight nur für den "Odd One Out"
         };
         io.to(user.id).emit('word-assigned', wordToSend);
     });
