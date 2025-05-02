@@ -57,45 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         statusArea.textContent = `Willkommen, ${user.username}! Du bist nun angemeldet.`;
         signupSection.appendChild(statusArea);
     });
-
-    socket.on('game-reset', () => {
-        // Show the game section
-        gameSection.style.display = 'block';
-    
-        // Clear the word display
-        wordDisplay.textContent = '';
-        wordDisplay.classList.remove('active');
-    
-        // Re-enable and ensure the "Runde starten" button is visible
-        startRoundButton.disabled = false;
-        startRoundButton.style.display = 'inline-block';
-    
-        // Hide the reset button
-        resetGameButton.style.display = 'none';
-    
-        // Update the status message
-        if (statusMessage) {
-            statusMessage.textContent = 'Das Spiel wurde zurückgesetzt. Bereit für eine neue Runde!';
-        }
-    });
-
-    socket.on('game-reset', () => {
-        // Ensure the game section is visible
-        gameSection.style.display = 'block';
-    
-        // Debugging log
-        console.log('Game Section Display:', gameSection.style.display);
-    });
-
-    socket.on('game-reset', () => {
-        // Ensure the button is functional
-        startRoundButton.addEventListener('click', () => {
-            socket.emit('start-round');
-        });
-    
-        // Debugging log
-        console.log('Start Round Button Event Listener Reattached');
-    });
     
     socket.on('signup-error', (errorMessage) => {
         alert(errorMessage);
@@ -158,28 +119,29 @@ console.log('Start Round Button:', startRoundButton.style.display, startRoundBut
     });
     
     socket.on('game-reset', () => {
-        // Hide the game section and show the signup section
-        gameSection.style.display = 'none';
+        // Show both sections
         signupSection.style.display = 'block';
-    
+        gameSection.style.display = 'block';
+        
         // Clear the word display
         wordDisplay.textContent = '';
         wordDisplay.classList.remove('active');
-    
-        // Keep the username input disabled and the signup button disabled
-        usernameInput.disabled = true;
-        document.getElementById('signup-button').disabled = true;
-    
+        
+        // Enable and show the start button
+        startRoundButton.disabled = false;
+        startRoundButton.style.display = 'inline-block';
+        
         // Hide the reset button
         resetGameButton.style.display = 'none';
-    
-        // Update the status message
+        
+        // Keep the username input disabled
+        usernameInput.disabled = true;
+        document.getElementById('signup-button').disabled = true;
+        
+        // Update status message
         if (statusMessage) {
             statusMessage.textContent = 'Das Spiel wurde zurückgesetzt. Bereit für eine neue Runde!';
         }
-
-        console.log('Game reset triggered game-reset');
-        console.log('Start Round Button:', startRoundButton.style.display, startRoundButton.disabled);
     });
     
     socket.on('disconnect', () => {
