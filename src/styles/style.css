@@ -138,3 +138,15 @@ button:disabled {
     background-color: #c0392b;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center; /* Zentriert die Buttons */
+    gap: 10px;
+}
+
+#start-round,
+#reset-game {
+    flex: 1; /* Optional: Gleiche Breite für beide Buttons */
+}
+
+

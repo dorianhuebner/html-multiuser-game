@@ -21,8 +21,10 @@
         </div>
         <div id="game" style="display: none;">
             <h2>Speilraum</h2>
-            <button id="start-round">Runde starten</button>
-            <button id="reset-game" style="display: none;">Spiel zurücksetzen</button>
+            <div class="button-container">
+                <button id="start-round">Runde starten</button>
+                <button id="reset-game" style="display: none;">Spiel zurücksetzen</button>
+            </div>
             <p id="word-display" class="word"></p>
             <div class="game-instructions">
                 <h3>Spielregeln:</h3>
@@ -30,7 +32,6 @@
                 <p>Findet heraus, wer der Spion unter uns ist!</p>
             </div>
         </div>
-    </div>
     <!-- Socket.IO client script -->
     <script src="socket.io/socket.io.js"></script>
     <!-- Game script -->
