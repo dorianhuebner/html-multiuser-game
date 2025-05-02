@@ -4,10 +4,13 @@ FROM node:20-alpine
 # Create app directory
 WORKDIR /usr/src/app
 
+# Copy package files first (for dependency caching)
+COPY package*.json ./
+
 # Install dependencies
 RUN npm install
 
-# Copy all project files
+# Copy all other project files
 COPY . .
 
 # Expose the port the app runs on
@@ -15,8 +18,3 @@ EXPOSE 3000
 
 # Command to run the application
 CMD ["node", "server.js"]
-
-# Ensure your Dockerfile has these lines
-COPY package*.json ./
-COPY src ./src
-COPY server.js ./
