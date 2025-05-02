@@ -67,6 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
         wordDisplay.textContent = '';
         wordDisplay.classList.remove('active');
     
+        // Re-enable and show the "Runde starten" button
+        startRoundButton.disabled = false;
+        startRoundButton.style.display = 'inline-block';
+    
         // Keep the username input disabled and the signup button disabled
         usernameInput.disabled = true;
         document.getElementById('signup-button').disabled = true;
@@ -78,9 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (statusMessage) {
             statusMessage.textContent = 'Das Spiel wurde zurückgesetzt. Bereit für eine neue Runde!';
         }
-
-         // Re-enable the "Runde starten" button
-         startRoundButton.disabled = false;
     });
     
     socket.on('signup-error', (errorMessage) => {
