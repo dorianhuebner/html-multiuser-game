@@ -97,6 +97,15 @@ io.on('connection', (socket) => {
     console.log(`Benutzer ${username} angemeldet`);
   });
 
+  socket.on('reset-game', () => {
+    gameState.isRoundActive = false;
+    gameState.mainWord = '';
+    gameState.oddOneOutUser = null;
+
+    // Notify all clients to reset the game
+    io.emit('game-reset');
+}); 
+
   // Handle start round
   socket.on('start-round', () => {
     if (gameState.users.length < 2) {
@@ -157,7 +166,7 @@ io.on('connection', (socket) => {
       // If odd one out disconnected during active round, end the round
       if (gameState.isRoundActive && socket.id === gameState.oddOneOutUser) {
         gameState.isRoundActive = false;
-        io.emit('round-ended', 'The odd one out left the game');
+        io.emit('round-ended', 'Der Spion hat das Spiel verlassen. Runde beendet!');
       }
     }
   });

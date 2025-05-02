@@ -127,3 +127,13 @@ button:disabled {
     border-radius: 4px;
     text-align: center;
 }
+
+#reset-game {
+    margin-left: 10px;
+    background-color: #e74c3c;
+    color: white;
+}
+
+#reset-game:hover {
+    background-color: #c0392b;
+}

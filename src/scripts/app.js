@@ -8,8 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const userList = document.getElementById('user-list');
     const wordDisplay = document.getElementById('word-display');
     const startRoundButton = document.getElementById('start-round');
+    const resetGameButton = document.getElementById('reset-game');
     const statusMessage = document.getElementById('status-message');
-    
+
     // Connect to the server with Socket.IO
     const socket = io();
     
@@ -33,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
     startRoundButton.addEventListener('click', () => {
         socket.emit('start-round');
     });
+
+    resetGameButton.addEventListener('click', () => {
+        socket.emit('reset-game');
+    });
     
     // Socket.IO event handlers
     socket.on('connect', () => {
@@ -51,6 +56,22 @@ document.addEventListener('DOMContentLoaded', () => {
         statusArea.id = 'status-message';
         statusArea.textContent = `Willkommen, ${user.username}! Du bist nun angemeldet.`;
         signupSection.appendChild(statusArea);
+    });
+
+    // Listen for the "game-reset" event
+    socket.on('game-reset', () => {
+        // Hide the game section and show the signup section
+        gameSection.style.display = 'none';
+        signupSection.style.display = 'block';
+
+        // Clear the word display and reset the form
+        wordDisplay.textContent = '';
+        wordDisplay.classList.remove('active');
+        usernameInput.disabled = false;
+        document.getElementById('signup-button').disabled = false;
+
+        // Hide the reset button
+        resetGameButton.style.display = 'none';
     });
     
     socket.on('signup-error', (errorMessage) => {
@@ -77,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     socket.on('round-started', () => {
         startRoundButton.disabled = true;
+        resetGameButton.style.display = 'block';
         
         // Update status message
         if (statusMessage) {
@@ -84,6 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
+
+
     socket.on('word-assigned', (word) => {
         
         wordDisplay.textContent = `Dein Wort: ${word}`;
