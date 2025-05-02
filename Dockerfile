@@ -1,11 +1,8 @@
 # Use Node.js as base image
-FROM node:16-alpine
+FROM node:20-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
 
 # Install dependencies
 RUN npm install
@@ -18,3 +15,8 @@ EXPOSE 3000
 
 # Command to run the application
 CMD ["node", "server.js"]
+
+# Ensure your Dockerfile has these lines
+COPY package*.json ./
+COPY src ./src
+COPY server.js ./

@@ -9,7 +9,11 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 // Serve static files from the 'src' directory
-app.use(express.static(path.join(__dirname, '/src')));
+app.use(express.static(path.join(__dirname, 'src')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src', 'index.html'));
+  });
 
 // Game state
 const gameState = {
