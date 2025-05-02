@@ -14,14 +14,25 @@
                 <input type="text" id="username" placeholder="Enter your username" required>
                 <button type="submit" id="signup-button">Sign Up</button>
             </form>
-            <ul id="user-list"></ul>
+            <div class="user-section">
+                <h3>Players:</h3>
+                <ul id="user-list"></ul>
+            </div>
         </div>
         <div id="game" style="display: none;">
-            <h2>Round Started!</h2>
-            <p id="word-display"></p>
+            <h2>Game Room</h2>
             <button id="start-round">Start Round</button>
+            <p id="word-display" class="word"></p>
+            <div class="game-instructions">
+                <h3>Game Rules:</h3>
+                <p>Everyone gets a word. One player gets a different word.</p>
+                <p>Try to figure out who has the different word!</p>
+            </div>
         </div>
     </div>
+    <!-- Socket.IO client script -->
+    <script src="src//socket.io/socket.io.js"></script>
+    <!-- Game script -->
     <script src="src/scripts/app.js"></script>
 </body>
 </html>

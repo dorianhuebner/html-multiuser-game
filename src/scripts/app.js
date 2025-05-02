@@ -1,66 +1,119 @@
-const users = [];
-let currentWord = '';
-let currentUserIndex = 0;
-
-// Event-Listener für das Sign-Up-Formular
-document.getElementById('signup-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    if (username && !users.includes(username)) {
-        users.push(username);
-        updateUserList();
-        document.getElementById('username').value = '';
-    } else if (users.includes(username)) {
-        alert('This username is already taken!');
-    }
-});
-
-// Event-Listener für den Start-Button
-document.getElementById('start-round').addEventListener('click', function() {
-    if (users.length > 1) {
-        startRound();
-    } else {
-        alert('Please sign up at least 2 users to start the round.');
-    }
-});
-
-// Funktion, um die Runde zu starten
-function startRound() {
-    currentUserIndex = Math.floor(Math.random() * users.length);
-    currentWord = generateRandomWord();
-    displayWord();
-    document.getElementById('game').style.display = 'block';
-}
-
-// Funktion, um ein zufälliges Wort zu generieren
-function generateRandomWord() {
-    const words = ['apple', 'banana', 'cherry', 'date', 'elderberry'];
-    return words[Math.floor(Math.random() * words.length)];
-}
-
-// Funktion, um das Wort anzuzeigen
-function displayWord() {
-    const wordDisplay = document.getElementById('word-display');
-    wordDisplay.innerHTML = ''; // Reset the display
-
-    users.forEach((user, index) => {
-        const userWord = document.createElement('p');
-        if (index === currentUserIndex) {
-            userWord.innerText = `${user}: You are the Imposter!`;
-        } else {
-            userWord.innerText = `${user}: ${currentWord}`;
-        }
-        wordDisplay.appendChild(userWord);
-    });
-}
-
-// Funktion, um die Benutzerliste zu aktualisieren
-function updateUserList() {
+// Client-side JavaScript for the multiuser game
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM elements
+    const signupForm = document.getElementById('signup-form');
+    const usernameInput = document.getElementById('username');
+    const signupSection = document.getElementById('signup');
+    const gameSection = document.getElementById('game');
     const userList = document.getElementById('user-list');
-    userList.innerHTML = '';
-    users.forEach(user => {
-        const li = document.createElement('li');
-        li.textContent = user;
-        userList.appendChild(li);
+    const wordDisplay = document.getElementById('word-display');
+    const startRoundButton = document.getElementById('start-round');
+    const statusMessage = document.getElementById('status-message');
+    
+    // Connect to the server with Socket.IO
+    const socket = io();
+    
+    // Game state
+    let currentUser = {
+        id: null,
+        username: null
+    };
+    
+    // Event listeners
+    signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = usernameInput.value.trim();
+        
+        if (username) {
+            // Send username to server
+            socket.emit('signup', username);
+        }
     });
-}
+    
+    startRoundButton.addEventListener('click', () => {
+        socket.emit('start-round');
+    });
+    
+    // Socket.IO event handlers
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+    
+    socket.on('signup-success', (user) => {
+        currentUser = user;
+        signupSection.style.display = 'block';
+        gameSection.style.display = 'block';
+        usernameInput.disabled = true;
+        document.getElementById('signup-button').disabled = true;
+        
+        // Add message to show successful signup
+        const statusArea = document.createElement('p');
+        statusArea.id = 'status-message';
+        statusArea.textContent = `Welcome, ${user.username}! You are now signed up.`;
+        signupSection.appendChild(statusArea);
+    });
+    
+    socket.on('signup-error', (errorMessage) => {
+        alert(errorMessage);
+    });
+    
+    socket.on('update-users', (users) => {
+        // Clear the current user list
+        userList.innerHTML = '';
+        
+        // Add all users to the list
+        users.forEach(user => {
+            const li = document.createElement('li');
+            li.textContent = user.username;
+            
+            // Highlight the current user
+            if (user.id === currentUser.id) {
+                li.classList.add('current-user');
+            }
+            
+            userList.appendChild(li);
+        });
+    });
+    
+    socket.on('round-started', () => {
+        startRoundButton.disabled = true;
+        
+        // Update status message
+        if (statusMessage) {
+            statusMessage.textContent = 'Round started! Look at your word below.';
+        }
+    });
+    
+    socket.on('word-assigned', (word) => {
+        wordDisplay.textContent = `Your word: ${word}`;
+        wordDisplay.classList.add('active');
+    });
+    
+    socket.on('game-error', (errorMessage) => {
+        alert(`Game error: ${errorMessage}`);
+    });
+    
+    socket.on('round-ended', (message) => {
+        wordDisplay.textContent = '';
+        wordDisplay.classList.remove('active');
+        startRoundButton.disabled = false;
+        
+        if (message) {
+            alert(message);
+        }
+    });
+    
+    socket.on('game-reset', () => {
+        wordDisplay.textContent = '';
+        wordDisplay.classList.remove('active');
+        startRoundButton.disabled = false;
+        
+        if (statusMessage) {
+            statusMessage.textContent = 'Game has been reset. Ready for a new round!';
+        }
+    });
+    
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+});

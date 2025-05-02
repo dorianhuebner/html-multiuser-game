@@ -1,10 +1,20 @@
-# Verwende ein leichtes Nginx-Image als Basis
-FROM nginx:alpine
+# Use Node.js as base image
+FROM node:16-alpine
 
-# Kopiere die Inhalte des "src"-Ordners in das Standardverzeichnis von Nginx
-COPY src /usr/share/nginx/html
+# Create app directory
+WORKDIR /usr/src/app
 
-# Exponiere den Standardport von Nginx
-EXPOSE 80
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Nginx wird automatisch gestartet, da es das Standardkommando des Images ist
+# Install dependencies
+RUN npm install
+
+# Copy all project files
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Command to run the application
+CMD ["node", "server.js"]
