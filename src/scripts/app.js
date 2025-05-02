@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('word-assigned', (word) => {
         
         wordDisplay.textContent = `Dein Wort: ${word}`;
-        wordDisplay.classList.toggle('highlight', data.highlight); // Highlight-Klasse hinzufügen/entfernen
         wordDisplay.classList.add('active');
     });
     
