@@ -99,7 +99,7 @@ io.on('connection', (socket) => {
 
   // Handle start round
   socket.on('start-round', () => {
-    if (gameState.users.length < 4) {
+    if (gameState.users.length < 2) {
       socket.emit('game-error', 'Mindestens 4 Spieler erforderlich, um eine Runde zu starten');
       return;
     }
