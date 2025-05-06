@@ -162,12 +162,6 @@ io.on('connection', (socket) => {
       
       // Broadcast updated user list
       io.emit('update-users', gameState.users);
-      
-      // If odd one out disconnected during active round, end the round
-      if (gameState.isRoundActive && socket.id === gameState.oddOneOutUser) {
-        gameState.isRoundActive = false;
-        io.emit('round-ended', 'Der Spion hat das Spiel verlassen. Runde beendet!');
-      }
     }
   });
 
