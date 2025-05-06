@@ -66,7 +66,7 @@ const gameState = {
   oddOneOutUser: null,
   oddOneOutWord: 'Spion' // The different word for one user
 };
-
+//
 // Socket.IO connection handling
 io.on('connection', (socket) => {
   console.log('Benutzer hat sich angemeldet:', socket.id);
